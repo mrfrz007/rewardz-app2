@@ -1,0 +1,98 @@
+<div class="search-container bg-color">
+    <mat-form-field appearance="outline" class="search-bar">
+        <mat-label>Search</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput type="text">
+      </mat-form-field>
+  </div>
+  
+  <div class="applied-filters  bg-color">
+    <h3 class="applied-filter">Applied Filters:</h3>
+    <div class="filters">
+      <span class="filter">e-voucher <span >X
+        </span>
+      </span>
+      <span class="filter">Products <span >X
+    </span></span>
+    </div>
+    <button mat-button class="clear-filters">Clear Filters</button>
+  </div>
+  
+  <div class="results-sort  bg-color">
+    <div class="results-found">21 results found</div>
+    <button mat-button (click)="sidenav.toggle()">Sort</button>
+  </div>
+  
+  <div class="content  bg-color">
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav mode="side" opened class="sidenav">
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-checkbox [checked]="true">e-Voucher</mat-checkbox>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list>
+              <mat-list-item>Subcategory 1</mat-list-item>
+              <mat-list-item>Subcategory 2</mat-list-item>
+            </mat-list>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Products
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Evergreen
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Fashion & Retail
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <div class="rewards-list">
+            <mat-card *ngFor="let reward of paginatedRewards" class="reward-item">
+              <img mat-card-image [src]="reward.display_img_url || 'assets/placeholder.png'" alt="{{ reward.name }}">
+              <span class="out-of-stock" *ngIf="reward.quantity === 0">Out of Stock</span>
+              <p *ngIf="reward.quantity !== null">
+                <span  class="out-of-stock"*ngIf="reward.quantity <= reward.low_quantity && reward.quantity > 0">
+                 <span class="high-demand">ON High Demand </span> (Only {{ reward.quantity }} rewards left)
+                </span>
+              </p>
+              <mat-card-content>
+                <h5 class="align-center">{{ reward.name }}</h5>
+                <p class="align-center">{{ reward.points }} Points</p>
+               <hr>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        
+        <div class="pagination-controls">
+          <mat-form-field >
+            
+            <input matInput type="number" [(ngModel)]="itemsPerPage" (change)="changePageSize($event)" min="1" step="1">
+          </mat-form-field>
+          <mat-label>Items per page</mat-label>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+  
+  <mat-sidenav #sidenav mode="over" position="end" class="sort-sidenav">
+    <h3>Sort</h3>
+    <button mat-button (click)="sortRewards('asc')">A to Z</button>
+    <button mat-button (click)="sortRewards('desc')">Z to A</button>
+  </mat-sidenav>
+  
